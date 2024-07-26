@@ -272,85 +272,86 @@ import torch
 import os
 import matplotlib.pyplot as plt
 
-def remove_black_background(image):
-    """
-    Remove black background from the given image and square crop preserving the main object.
-    
-    Args:
-        image (numpy.ndarray): Input image array.
-    
-    Returns:
-        numpy.ndarray: The processed image array.
-    """
+class RemoveBlackBackground:
+    def __call__(self, image):
+        """
+        Remove black background from the given image and crop preserving the main object.
+        
+        Args:
+            image (PIL.Image): Input image.
+        
+        Returns:
+            PIL.Image: The processed image.
+        """
+        # Convert PIL image to NumPy array
+        image_np = np.array(image)
+        
+        # Check if image has an alpha channel
+        if image_np.shape[2] == 4:
+            # Convert RGBA to RGB
+            image_np = cv2.cvtColor(image_np, cv2.COLOR_RGBA2RGB)
 
-    # Convert PIL image to NumPy array if it's not already
-    if isinstance(image, Image.Image):
-        image = np.array(image)
-    
-    # Check if image has an alpha channel
-    if image.shape[2] == 4:
-        # Convert RGBA to RGB
-        image = cv2.cvtColor(image, cv2.COLOR_RGBA2RGB)
+        # Convert image to grayscale
+        gray = cv2.cvtColor(image_np, cv2.COLOR_RGB2GRAY)
+        
+        # Threshold to separate black background from main object
+        _, thresh = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)
+        
+        # Find contours
+        contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        if contours:
+            # Find the largest contour
+            max_contour = max(contours, key=cv2.contourArea)
+            
+            # Get bounding box of the contour
+            x, y, w, h = cv2.boundingRect(max_contour)
+            
+            # Crop the image using the bounding box
+            cropped_image = image_np[y:y+h, x:x+w]
+            
+            # Convert back to PIL Image
+            return Image.fromarray(cropped_image)
+        else:
+            # If no contours found, return original image
+            return image
 
-    # Convert image to grayscale
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    
-    # Threshold to separate black background from main object
-    _, thresh = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)
-    
-    # Find contours
-    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    
-    if contours:
-        # Find the largest contour
-        max_contour = max(contours, key=cv2.contourArea)
-        
-        # Get bounding box of the contour
-        x, y, w, h = cv2.boundingRect(max_contour)
-        
-        # Crop the image using the bounding box
-        cropped_image = image[y:y+h, x:x+w]
-        
-        return cropped_image
-    else:
-        # If no contours found, return original image
-        return image
-    
 
-def remove_white_background(image):
-    """
-    Remove white background from the given image and square crop preserving the main object.
-    
-    Args:
-        image (numpy.ndarray): Input image array.
-    
-    Returns:
-        numpy.ndarray: The processed image array.
-    """
-    # Convert PIL image to NumPy array if it's not already
-    if isinstance(image, Image.Image):
-        image = np.array(image)
-    
-    # Convert image to grayscale
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    
-    # Threshold to separate white background from main object
-    _, thresh = cv2.threshold(gray, 230, 255, cv2.THRESH_BINARY_INV)
-    
-    # Find contours
-    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-    
-    if contours:
-        # Find the largest contour
-        max_contour = max(contours, key=cv2.contourArea)
+class RemoveWhiteBackground:
+    def __call__(self, image):
+        """
+        Remove white background from the given image and crop preserving the main object.
         
-        # Get bounding box of the contour
-        x, y, w, h = cv2.boundingRect(max_contour)
+        Args:
+            image (PIL.Image): Input image.
         
-        # Crop the image using the bounding box
-        cropped_image = image[y:y+h, x:x+w]
+        Returns:
+            PIL.Image: The processed image.
+        """
+        # Convert PIL image to NumPy array
+        image_np = np.array(image)
         
-        return cropped_image
-    else:
-        # If no contours found, return original image
-        return image
+        # Convert image to grayscale
+        gray = cv2.cvtColor(image_np, cv2.COLOR_RGB2GRAY)
+        
+        # Threshold to separate white background from main object
+        _, thresh = cv2.threshold(gray, 230, 255, cv2.THRESH_BINARY_INV)
+        
+        # Find contours
+        contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        
+        if contours:
+            # Find the largest contour
+            max_contour = max(contours, key=cv2.contourArea)
+            
+            # Get bounding box of the contour
+            x, y, w, h = cv2.boundingRect(max_contour)
+            
+            # Crop the image using the bounding box
+            cropped_image = image_np[y:y+h, x:x+w]
+            
+            # Convert back to PIL Image
+            return Image.fromarray(cropped_image)
+        else:
+            # If no contours found, return original image
+            return image

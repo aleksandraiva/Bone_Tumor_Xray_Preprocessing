@@ -51,8 +51,8 @@ label_map = {'benign': 0, 'intermediate': 1, 'malignant': 2}
 
 # Optimal preprocessing and augmentation pipeline for the validation dataset
 train_transform = transforms.Compose([
-    remove_white_background,
-    remove_black_background,
+    RemoveWhiteBackground(),
+    RemoveBlackBackground(),
     transforms.RandomAffine(degrees=0, translate=(0.1, 0.1)),
     transforms.RandomHorizontalFlip(),
     transforms.Resize((256, 256)),
@@ -64,8 +64,8 @@ train_transform = transforms.Compose([
 
 # Optimal preprocessing and augmentation pipeline for the test set
 test_transform = transforms.Compose([
-    remove_white_background,
-    remove_black_background,
+    RemoveWhiteBackground(),
+    RemoveBlackBackground(),
     transforms.Resize((256, 256)),
     transforms.CenterCrop(224),
     Sharpen(sharpness_factor=2.0),
@@ -76,8 +76,8 @@ test_transform = transforms.Compose([
 # In case you would want to try other preprocessing or augmentation methods, comment out those who you don't want to be included
 dim = 224 # Define dimension for resizing
 your_transform = transforms.Compose([
-    remove_white_background,
-    remove_black_background,
+    RemoveWhiteBackground(),
+    RemoveBlackBackground(),
     transforms.Resize((256, 256)),
     transforms.CenterCrop(224),
     ResizeAndCrop(dim),
