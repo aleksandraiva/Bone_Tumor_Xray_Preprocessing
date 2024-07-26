@@ -30,13 +30,6 @@ conda env create -f environment.yml
 conda activate bone_tumor_cl
 ```
 
-### Step 3: Verify the Installation
-Check that all required packages are installed correctly:
-
-```
-conda list
-```
-
 ## Usage
 
 Instructions on how to use your project.
