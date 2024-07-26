@@ -1,6 +1,8 @@
 # Bone_Tumor_Xray_Preprocessing
 
-Description of your project.
+An optimised preprocessing and data augmentation pipeline targeted for bone tumor X-ray images for the downstream task of a three-class classification (beign, intermediate, malignant). 
+
+The project contains additional implementation of preprocessing techniques that have potential to contribute to the optimal preprocessing depending on the dataset.
 
 ## Table of Contents
 
@@ -17,7 +19,7 @@ First, clone the repository to your local machine:
 
 ```
 git clone https://github.com/aleksandraiva/Bone_Tumor_Xray_Preprocessing.git
-cd target-repo
+cd Bone_Tumor_Xray_Preprocessing
 ```
 
 ### Step 2: Create and Activate the Conda Environment
