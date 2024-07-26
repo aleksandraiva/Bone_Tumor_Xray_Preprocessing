@@ -8,8 +8,6 @@ The project contains additional implementation of preprocessing techniques that 
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
