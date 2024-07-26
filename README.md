@@ -1,6 +1,6 @@
 # Bone_Tumor_Xray_Preprocessing
 
-An optimised preprocessing and data augmentation pipeline targeted for bone tumor X-ray images for the downstream task of a three-class classification (beign, intermediate, malignant). 
+An optimised preprocessing and data augmentation pipeline targeted for bone tumor X-ray images for the downstream task of a three-class classification (benign, intermediate, malignant). 
 
 The project contains additional implementation of preprocessing techniques that have potential to contribute to the optimal preprocessing depending on the dataset.
 
