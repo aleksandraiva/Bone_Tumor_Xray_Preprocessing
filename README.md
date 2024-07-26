@@ -32,15 +32,20 @@ conda activate bone_tumor_cl
 
 ## Usage
 
-Instructions on how to use your project.
+Define data directories and metadata files in the k_fold.py file. 
 
-## Contributing
+For further experiments, you can change the train_transforms and test_transforms by adding or removing preprocessing and/or augmentation steps. 
 
-Guidelines for contributing to the project.
+Adapt hyperparameters if needed, as the model showed dependency on hyperparameter combinations. The provided hyperparameters showed optimal performance on the dataset and the defined downstream task. 
 
-## License
+By running the k_fold.py script in the 'train' folder all outputs will be saved in the same 'train' folder. Run the script by using:
 
-Information about the project's license.
+```
+cd Bone_Tumor_Xray_Preprocessing/train
+nohup python k_fold.py > results.log 2>&1 &
+```
+
+
 
 
 
